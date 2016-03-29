@@ -1,0 +1,9 @@
+#container{
+  float:left;
+  display:inline-block;
+}
+
+.control-panel{
+  position: relative;
+  float:right;
+}
