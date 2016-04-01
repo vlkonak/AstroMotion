@@ -12,14 +12,14 @@
 * They will be passed to objects' render funcs as callbacks
 */
 
-function renderAstronomicalObject(astronimaclObject,options){
-  var rx = p5.Vector.div(astronimaclObject.position,options.scale).x;
-  var ry = p5.Vector.div(astronimaclObject.position,options.scale).y;
-  if(!astronimaclObject.isActive()){
+function renderAstronomicalObject(astronomicalObject,options){
+  var rx = p5.Vector.div(astronomicalObject.position,options.scale).x;
+  var ry = p5.Vector.div(astronomicalObject.position,options.scale).y;
+  if(!astronomicalObject.isActive()){
       noFill();
-      if(astronimaclObject.position){
+      if(astronomicalObject.position){
         stroke(55);
-        ellipse(rx,ry,astronimaclObject.radius/options.scale,astronimaclObject.radius/options.scale);
+        ellipse(rx,ry,astronomicalObject.radius/options.scale,astronomicalObject.radius/options.scale);
         line(rx,ry,mouseX-options.offset.x,mouseY-options.offset.y);
       }else{
         console.debug('rendering failed');
@@ -29,23 +29,24 @@ function renderAstronomicalObject(astronimaclObject,options){
     // > TODO: simple circle of definite colour and radius
     fill(color(200,200,200));
     stroke(40);
-    ellipse(rx,ry,astronimaclObject.radius/options.scale,astronimaclObject.radius/options.scale);
+    ellipse(rx,ry,astronomicalObject.radius/options.scale,astronomicalObject.radius/options.scale);
     // TODO: check if to show orbit
     // TODO: check if to show spin
 
     if (options.show_direction_for_acceleration){
       // GREEN - acc
       stroke(color(0,100,0));
-      var temp = sqrt(astronimaclObject.prev_acc.mag());
-      astronimaclObject.prev_acc.normalize().mult(temp);
-      line(rx,ry,rx+astronimaclObject.prev_acc.x,ry+astronimaclObject.prev_acc.y);
-      text('  acc:'+astronimaclObject.prev_acc.mag().toFixed(3),rx+20,ry+35);
+      var temp = sqrt(astronomicalObject.prev_acc.mag());
+      astronomicalObject.prev_acc.normalize().mult(temp);
+      line(rx,ry,rx+astronomicalObject.prev_acc.x,ry+astronomicalObject.prev_acc.y);
+      text('  acc:'+astronomicalObject.prev_acc.mag().toFixed(3),rx+20,ry+35);
     }
     if (options.show_direction_for_velocity){
       //BLUE - speed
       stroke(color(0,0,100));
-      line(rx,ry,rx+astronimaclObject.velocity.x/options.scale,ry+astronimaclObject.velocity.y/options.scale);
-      text('speed:'+astronimaclObject.velocity.mag().toFixed(3),rx+20,ry+20);
+      line(rx,ry,rx+astronomicalObject.velocity.x/options.scale,ry+astronomicalObject.velocity.y/options.scale);
+      text('speed:'+astronomicalObject.velocity.mag().toFixed(3),rx+20,ry+20);
     }
+    text('  '+astronomicalObject.name,rx+5,ry);
   }
 }

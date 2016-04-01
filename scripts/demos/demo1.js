@@ -30,5 +30,12 @@ var demo = {
       position: new p5.Vector(5e5,2e5),
       velocity: new p5.Vector(0.548376679968,0),
     },
+
+    {
+      id:17,
+      mass:2e5,
+      position: new p5.Vector(7e5,3e5),
+      velocity: new p5.Vector(0,-6e3),
+    },
   ]
 }

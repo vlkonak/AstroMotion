@@ -13,8 +13,24 @@ function Grid(demo_json){
     return id;
   }
 
+  this.destroy_object = function(object){
+    var position_in_grid_array = this.map[object.id];
+    for (var record_id in this.map){
+      if (this.map[record_id]>position_in_grid_array){
+        this.map[record_id]--;
+      }
+    }
+    delete(this.map[object.id]);
+
+    this.grid[position_in_grid_array] = null;
+  }
+
   this.findById = function(id){
-    return this.grid[this.map[id]];
+    if (this.map.hasOwnProperty(id) && this.map[id] in this.grid){
+      return this.grid[this.map[id]];
+    }else{
+      return null;
+    }
   }
 
   if(typeof demo_json != 'undefined'){
@@ -32,6 +48,7 @@ function Grid(demo_json){
     if (array.length >= 1){
     for (var i = 0; i < array.length -1 ; i++) {
         for (var j = i+1; j < array.length; j++) {
+            if (!array[i] || !array[j]){continue;}
             if (!array[i].isActive() || !array[j].isActive()){continue;}
             var temp_vector = p5.Vector.sub(array[i].position, array[j].position);
             var distance = temp_vector.magSq();
@@ -42,11 +59,11 @@ function Grid(demo_json){
               if(array[i].getMass()>array[j].getMass()){
                  array[i].velocity.add(array[j].velocity.mult(array[j].getMass()).div(array[i].getMass()));
                  array[i].setMass(array[i].getMass()+array[j].getMass());
-                 array.splice(j,1);
+                 this.destroy_object(array[j]);
                }else{
                  array[j].velocity.add(array[i].velocity.mult(array[i].getMass()).div(array[j].getMass()));
                  array[j].setMass(array[i].getMass()+array[j].getMass());
-                 array.splice(i,1);
+                 this.destroy_object(array[i]);
                }
 
             }else{
@@ -57,6 +74,7 @@ function Grid(demo_json){
         }
     }
   }
+  if(array.indexOf(null)>=0){array.splice(array.indexOf(null),1);};
     for (var i = 0; i < array.length; i++) {
       array[i].applyNextState();
     }

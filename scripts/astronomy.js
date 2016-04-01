@@ -1,12 +1,9 @@
 console.log('astronomy loaded')
-const G_SI = 0.0000000000667408;//meter^3*second^-2*kilogramm^-1
-const G    = 6000 ;
-
 //star,planet,asteroid,comet,moon
 // function AstronomicObject(id,position, mass){
 function AstronomicObject(params){
   this.updateRadius = function(){
-    this.radius = pow(this.mass,0.3)*100;
+    this.radius = pow(this.mass,0.3)*10;
   }
   this.setMass = function(mass_value){
     this.mass = mass_value;
@@ -16,18 +13,16 @@ function AstronomicObject(params){
           this.setMass(params.mass);
 
           this.active = false;
-          this.name = '';
+          this.name = params.name || '';
           this.id = params.id;
           this.velocity = params.hasOwnProperty('velocity')?params.velocity:new p5.Vector(0,0);
           this.acceleration = new p5.Vector(0,0);
 
           this.prev_acc = this.acceleration.copy();
 
-
-
-
   this.generateVelocity = function(x,y){
     this.velocity.add(new p5.Vector(x-this.position.x,y-this.position.y));
+    this.velocity.mult(0.2);
     return this.velocity;
   }
 
@@ -68,9 +63,32 @@ function AstronomicObject(params){
     this.prev_acc = this.acceleration;
     delete(this.acceleration);
     this.acceleration = new p5.Vector(0,0);
+
+    this.trace.update();
   }
 
   this.render = function(renderFunction,options){
     renderFunction(this,options);
+
+    this.trace.render(options);
   }
+
+  function Trace(obj){
+    this.coords = [];
+    this.update = function(){
+      if(this.coords.length >= 180){
+        this.coords.splice(0,1);
+      }
+      this.coords.push({x:obj.position.x,y:obj.position.y})
+    }
+    this.render = function(options){
+      stroke(150);
+      for (var i = 0; i < this.coords.length-1;i++){
+        // point(this.coords[i].x/options.scale,this.coords[i].y/options.scale);
+        // if (this.coords[i+1]) break;
+        line(this.coords[i].x/options.scale,this.coords[i].y/options.scale,this.coords[i+1].x/options.scale,this.coords[i+1].y/options.scale);
+      }
+    }
+  }
+  this.trace = new Trace(this);
 }

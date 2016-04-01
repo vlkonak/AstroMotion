@@ -46,27 +46,23 @@ var availableHandlers = {
     },
     wheelEventHandler: function(state,wheelEvent){
       if (settings.scale + wheelEvent.delta >0){
-      settings.scale += wheelEvent.delta;
-    }
+        var temp_x = (mouseX-settings.offset.x)*settings.scale;
+        var temp_y = (mouseY-settings.offset.y)*settings.scale;
+        settings.scale *= pow(2,round(wheelEvent.delta/Math.abs(wheelEvent.delta)));
+        settings.offset.x = mouseX-temp_x/settings.scale;
+        settings.offset.y = mouseY-temp_y/settings.scale;
+      }
       document.getElementById('scale').value = settings.scale;
     },
   },
   adding_object:{
     pressedEventHandler: function(state){
-      if (mouseIsPressed){
-        if (mouseButton == LEFT){
           var identifier = millis();
           grid.create_object({
             id:identifier,
             position: (new p5.Vector(mouseX-settings.offset.x,mouseY-settings.offset.y)).mult(settings.scale)
           },default_settings.create_object);
-          state.saveData({id:identifier})
-          // return state.saveData({start_point:new p5.Vector(mouseX,mouseY)})
-        }
-        if (mouseButton == RIGHT){
-          return this.abortAddingNewObject(state);
-        }
-      }
+          state.saveData({id:identifier});
     },
     releasedEventHandler: function(state){
       return this.finishAddingNewObject(state);
@@ -76,7 +72,9 @@ var availableHandlers = {
     },
     wheelEventHandler: function(state,wheelEvent){
       var obj = grid.findById(state.getData('id'));
-      obj.setMass(obj.getMass()*pow(10,wheelEvent.delta/-100));
+      if (obj){
+        obj.setMass(obj.getMass()*pow(10,wheelEvent.delta/-100));
+      }
     },
     abortAddingNewObject:function(state){
         //TODO: delete from the grid that temp obj

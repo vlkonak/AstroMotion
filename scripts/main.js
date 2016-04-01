@@ -7,7 +7,7 @@ requirejs([
   "user_interface",
   "app_renderer",
   "app",
-  "demos/demo1"
+  "demos/demo2"
 ],
   function(e){
     console.log('modules loaded');
