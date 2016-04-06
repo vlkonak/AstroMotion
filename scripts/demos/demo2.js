@@ -29,7 +29,7 @@ var demo = {
       velocity: new p5.Vector(0,-29e4),
     },
     {
-      id:103,
+      id:1301,
       name:'Moon',
       mass:7.3477e12,//e22
       // position: new p5.Vector(150e4+363e1,0),
@@ -71,6 +71,36 @@ var demo = {
       mass:1.0243e16,//e26
       position: new p5.Vector(4503.4e6,0),//
       velocity: new p5.Vector(0,-5.4349e4),
+    },
+
+
+    {
+      id:1501,
+      name:'Io',
+      mass:8.9e12,//e22
+      position: new p5.Vector(740.5e6,421e3),//
+      velocity: new p5.Vector(17.33e4,-13.07e4),
+    },
+    {
+      id:1502,
+      name:'Europa',
+      mass:4.8e12,//e22
+      position: new p5.Vector(740.5e6,671e3),//
+      velocity: new p5.Vector(13.74e4,-13.07e4),
+    },
+    {
+      id:1503,
+      name:'Ganymede',
+      mass:1.5e13,//e23
+      position: new p5.Vector(740.5e6,1.07e6),//
+      velocity: new p5.Vector(10.8e4,-13.07e4),
+    },
+    {
+      id:1504,
+      name:'Callisto',
+      mass:1.1e13,//e23
+      position: new p5.Vector(740.5e6,1.882e6),//
+      velocity: new p5.Vector(8.2e4,-13.07e4),
     },
   ]
 }

@@ -2,43 +2,67 @@
 <head>
   <script src="https://code.jquery.com/jquery-2.2.2.min.js"
           integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI="
-          crossorigin="anonymous"></script>
+          crossorigin="anonymous">
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.22/p5.js"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.23/addons/p5.dom.js"></script> -->
   <script data-main="scripts/main" src="scripts/require.js"></script>
-
-  <!-- <script src="proto.js"></script> -->
-  <!-- <script src="app_renderer.js"></script> -->
-  <!-- <script src="SmoothTrace.js"></script> -->
+  <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-  <div class="control-panel">
-    <button id="add-object-btn"
-      onclick="initAddingNewObject()">
-      Add Object
-    </button>
-    <button id="pause"
-      onclick="pauseRender()">
-      Pause
-    </button>
-    <button id="resume"
-    onclick="resumeRender()">
-      Resume
-    </button>
-    <input type="checkbox" name="showGrid" onchange="toggleLayout()">Show Layout
-    <div>
-      <button type="button" onclick="initDemo()">Show Demo</button>
+  <div id="control-panel" class="right-panel">
+    <div class="control-wrapper">
+        <button id="add-object-btn"
+          onclick="initAddingNewObject()">
+          Add Object
+        </button>
     </div>
-    <div>
+    <div class="control-wrapper">
+        <button id="pause"
+          onclick="pauseRender()">
+          Pause
+        </button>
+    </div>
+    <div class="control-wrapper">
+        <button id="resume"
+        onclick="resumeRender()">
+          Resume
+        </button>
+    </div>
+    <div class="control-wrapper">
+      <label>
+        <input type="checkbox" name="showGrid" onchange="toggleLayout()">
+        Show Layout
+      </label>
+    </div>
+    <div class="control-wrapper">
+      <label>
+        <input type="checkbox" name="showTraces" onchange="toggleTraces()">
+        Show Traces
+      </label>
+    </div>
+    <div class="control-wrapper">
+      <label>
+        <input type="checkbox" name="showDetails" onchange="toggleDetails()">
+        Show Details
+      </label>
+    </div>
+    <div class="control-wrapper">
+          <button type="button" onclick="initDemo()">Show Demo</button>
+    </div>
+    <div class="control-wrapper">
       Scale
-      <input label="Scale"
-              id="scale"
+      <input id="scale"
              value="1000"
              type="number"
-             step="100"
-             onchange="updateScale(this.value)"/>
-      (or use your mouse wheel)
+             disabled/>
+      (use your mouse wheel)
     </div>
+  </div>
+
+  <div id="details-wrapper" class="right-panel">
+    <ul id="details-table">
+    </ul>
   </div>
 
   <div id="container">

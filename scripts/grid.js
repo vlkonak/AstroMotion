@@ -10,6 +10,7 @@ function Grid(demo_json){
     if(typeof params.position == 'string')params.position = exec(params.position);
     this.grid.push(new AstronomicObject(params));
     this.map[id] = this.grid.length - 1;
+    updateDetailsTable(this.grid);
     return id;
   }
 
@@ -23,6 +24,7 @@ function Grid(demo_json){
     delete(this.map[object.id]);
 
     this.grid[position_in_grid_array] = null;
+    updateDetailsTable(this.grid);
   }
 
   this.findById = function(id){
@@ -43,7 +45,7 @@ function Grid(demo_json){
     }
   }
 
-  this.computeNextState = function(){
+  this.computeNextState = function(settings){
     var array = this.grid;
     if (array.length >= 1){
     for (var i = 0; i < array.length -1 ; i++) {
@@ -76,7 +78,7 @@ function Grid(demo_json){
   }
   if(array.indexOf(null)>=0){array.splice(array.indexOf(null),1);};
     for (var i = 0; i < array.length; i++) {
-      array[i].applyNextState();
+      array[i].applyNextState(settings);
     }
 
   }
@@ -92,7 +94,6 @@ function Grid(demo_json){
     //   d = d-20;
     // }
     function showLayout(settings){
-        translate(-settings.offset.x, -settings.offset.y);
         stroke(color(250-da/10,220-da/10,220-da/10));
         for (var i=settings.offset.x%d;i<windowWidth;i+=d){
           line(i,0,i,windowHeight);
@@ -107,11 +108,16 @@ function Grid(demo_json){
         for (var j=settings.offset.y%d;j<windowHeight;j+=d*5){
           line(0,j,windowWidth,j);
         }
-        translate(settings.offset.x, settings.offset.y);
     }
     if (settings.show_layout){
       showLayout(settings);
     }
+    if(settings.bind_offset_id){
+      var bound_obj = this.findById(settings.bind_offset_id);
+      settings.offset.x = -bound_obj.position.x/settings.scale + windowWidth/2;
+      settings.offset.y = -bound_obj.position.y/settings.scale + windowHeight/2;
+    }
+    translate(settings.offset.x, settings.offset.y);
     for (var each of this.grid){
       each.render(renderAstronomicalObject,settings);
     }

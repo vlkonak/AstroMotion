@@ -25,12 +25,9 @@ function renderAstronomicalObject(astronomicalObject,options){
         console.debug('rendering failed');
       }
   }else{
-    // TODO: get sure it has coordinates and activated
-    // > TODO: simple circle of definite colour and radius
     fill(color(200,200,200));
     stroke(40);
     ellipse(rx,ry,astronomicalObject.radius/options.scale,astronomicalObject.radius/options.scale);
-    // TODO: check if to show orbit
     // TODO: check if to show spin
 
     if (options.show_direction_for_acceleration){

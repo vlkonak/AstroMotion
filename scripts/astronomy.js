@@ -1,9 +1,7 @@
-console.log('astronomy loaded')
 //star,planet,asteroid,comet,moon
-// function AstronomicObject(id,position, mass){
 function AstronomicObject(params){
   this.updateRadius = function(){
-    this.radius = pow(this.mass,0.3)*10;
+    this.radius = pow(this.mass,0.3)*1;
   }
   this.setMass = function(mass_value){
     this.mass = mass_value;
@@ -56,7 +54,7 @@ function AstronomicObject(params){
     return this.acceleration;
   }
 
-  this.applyNextState = function(){
+  this.applyNextState = function(settings){
     var time_measurement = 1;
     this.velocity.add(this.acceleration.mult(time_measurement));
     this.position.add(this.velocity.mult(time_measurement));
@@ -64,7 +62,7 @@ function AstronomicObject(params){
     delete(this.acceleration);
     this.acceleration = new p5.Vector(0,0);
 
-    this.trace.update();
+    this.trace.update(settings);
   }
 
   this.render = function(renderFunction,options){
@@ -75,18 +73,24 @@ function AstronomicObject(params){
 
   function Trace(obj){
     this.coords = [];
-    this.update = function(){
-      if(this.coords.length >= 180){
-        this.coords.splice(0,1);
+    this.update = function(options){
+      if (options.show_trace){
+          if(this.coords.length >= 180){
+            this.coords.splice(0,1);
+          }
+          this.coords.push({x:obj.position.x,y:obj.position.y})
+      }else{
+        if(this.coords.length){
+          this.coords = [];
+        }
       }
-      this.coords.push({x:obj.position.x,y:obj.position.y})
     }
     this.render = function(options){
-      stroke(150);
-      for (var i = 0; i < this.coords.length-1;i++){
-        // point(this.coords[i].x/options.scale,this.coords[i].y/options.scale);
-        // if (this.coords[i+1]) break;
-        line(this.coords[i].x/options.scale,this.coords[i].y/options.scale,this.coords[i+1].x/options.scale,this.coords[i+1].y/options.scale);
+      if (options.show_trace){
+          stroke(150);
+          for (var i = 0; i < this.coords.length-1;i++){
+            line(this.coords[i].x/options.scale,this.coords[i].y/options.scale,this.coords[i+1].x/options.scale,this.coords[i+1].y/options.scale);
+          }
       }
     }
   }

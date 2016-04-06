@@ -1,9 +1,32 @@
 #container{
-  float:left;
-  display:inline-block;
 }
 
-.control-panel{
-  position: relative;
-  float:right;
+div.right-panel{
+  position: absolute;
+  right:20px;
+  width: 150px;
+  background-color: #AAAAAA;
+  opacity: 0.8;
+  border-radius: 15px;
+}
+
+div#control-panel{
+  top: 15px;
+}
+
+div#details-wrapper{
+  bottom:30px;
+}
+
+.control-wrapper{
+  margin:10px;
+}
+
+li.selected{
+  background-color: #808080;
+}
+
+
+input#scale{
+  width: 60%;
 }
