@@ -8,6 +8,7 @@ function Grid(demo_json){
     if(!params.hasOwnProperty('mass'))params.mass = default_params.mass;
     if(typeof params.velocity == 'string')params.velocity = exec(params.velocity);
     if(typeof params.position == 'string')params.position = exec(params.position);
+    if (params.orbit_center_id){params.orbit_center = this.findById(params.orbit_center_id)}
     this.grid.push(new AstronomicObject(params));
     this.map[id] = this.grid.length - 1;
     updateDetailsTable(this.grid);
@@ -15,6 +16,9 @@ function Grid(demo_json){
   }
 
   this.destroy_object = function(object){
+    if(settings.bind_offset_id == object.id){
+      settings.bind_offset_id = null;
+    }
     var position_in_grid_array = this.map[object.id];
     for (var record_id in this.map){
       if (this.map[record_id]>position_in_grid_array){
@@ -23,7 +27,8 @@ function Grid(demo_json){
     }
     delete(this.map[object.id]);
 
-    this.grid[position_in_grid_array] = null;
+    // this.grid[position_in_grid_array] = null;
+    this.grid.splice(position_in_grid_array,1);
     updateDetailsTable(this.grid);
   }
 
@@ -38,10 +43,13 @@ function Grid(demo_json){
   if(typeof demo_json != 'undefined'){
     for(var id in demo_json.objects){
       var current_obj = demo_json.objects[id];
-      console.log(id);
       var identifier = this.create_object(current_obj,default_settings);
-      console.log('object is kind of created');
       this.findById(identifier).setActive();
+    }
+    for (var property in demo_json.app_settings){
+        if (settings.hasOwnProperty(property)){
+          settings[property] = demo_json.app_settings[property];
+        }
     }
   }
 
@@ -54,7 +62,15 @@ function Grid(demo_json){
             if (!array[i].isActive() || !array[j].isActive()){continue;}
             var temp_vector = p5.Vector.sub(array[i].position, array[j].position);
             var distance = temp_vector.magSq();
-            if (temp_vector.mag() <= (array[i].radius+array[j].radius)/2){
+
+            var is_open_angle = 3/4*PI < p5.Vector.angleBetween(array[j].velocity,array[i].velocity) && 5/4*PI > p5.Vector.angleBetween(array[j].velocity,array[i].velocity) ;
+            var probably_hit = is_open_angle&&(array[j].velocity.mag()+array[i].velocity.mag())>temp_vector.mag();
+            if(probably_hit){
+              //detailed analysis required
+              console.warn('something strange happened here');
+            }
+            var surfaces_contacted = temp_vector.mag() <= (array[i].radius+array[j].radius)/2;
+            if (surfaces_contacted || probably_hit){
               // impact happened
               // TODO: process collisions, explosions or merge
 
@@ -84,28 +100,36 @@ function Grid(demo_json){
   }
 
   this.render = function(settings){
-    // TODO
-    var da = 50000/settings.scale;
-    var d = da;
-    // if(da%40>20){
-    //   d = d+20;
-    // }
-    // if(da%40<20){
-    //   d = d-20;
-    // }
     function showLayout(settings){
-        stroke(color(250-da/10,220-da/10,220-da/10));
+        var da = 1;
+        var inc = 10;
+        do{
+          inc*=10;
+          var da = inc/(settings.scale);
+        }while(da<200);
+
+        var d = da;
+
+        stroke(color(250,100,100));
+        strokeWeight(0.02);
+        for (var i=settings.offset.x%(.04*d);i<windowWidth;i+=d*.04){
+          line(i,0,i,windowHeight);
+        }
+        for (var j=settings.offset.y%(.04*d);j<windowHeight;j+=d*.04){
+          line(0,j,windowWidth,j);
+        }
+        strokeWeight(0.1);
+        for (var i=settings.offset.x%(.2*d);i<windowWidth;i+=d*.2){
+          line(i,0,i,windowHeight);
+        }
+        for (var j=settings.offset.y%(.2*d);j<windowHeight;j+=d*.2){
+          line(0,j,windowWidth,j);
+        }
+        strokeWeight(0.5);
         for (var i=settings.offset.x%d;i<windowWidth;i+=d){
           line(i,0,i,windowHeight);
         }
         for (var j=settings.offset.y%d;j<windowHeight;j+=d){
-          line(0,j,windowWidth,j);
-        }
-        stroke(color(250,220-da/2,220-da/2));
-        for (var i=settings.offset.x%d;i<windowWidth;i+=d*5){
-          line(i,0,i,windowHeight);
-        }
-        for (var j=settings.offset.y%d;j<windowHeight;j+=d*5){
           line(0,j,windowWidth,j);
         }
     }
@@ -117,6 +141,7 @@ function Grid(demo_json){
       settings.offset.x = -bound_obj.position.x/settings.scale + windowWidth/2;
       settings.offset.y = -bound_obj.position.y/settings.scale + windowHeight/2;
     }
+    strokeWeight(0.8);
     translate(settings.offset.x, settings.offset.y);
     for (var each of this.grid){
       each.render(renderAstronomicalObject,settings);

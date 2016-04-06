@@ -57,7 +57,7 @@ var availableHandlers = {
   },
   adding_object:{
     pressedEventHandler: function(state){
-          var identifier = millis();
+          var identifier = parseInt(millis());
           grid.create_object({
             id:identifier,
             position: (new p5.Vector(mouseX-settings.offset.x,mouseY-settings.offset.y)).mult(settings.scale)

@@ -44,6 +44,22 @@ function renderAstronomicalObject(astronomicalObject,options){
       line(rx,ry,rx+astronomicalObject.velocity.x/options.scale,ry+astronomicalObject.velocity.y/options.scale);
       text('speed:'+astronomicalObject.velocity.mag().toFixed(3),rx+20,ry+20);
     }
+
+    if(options.show_orbits){
+      // var R = 1.5e10*sqrt(G/astronomicalObject.prev_acc);
+      if (astronomicalObject.orbit_center){
+        var R = astronomicalObject.position.copy().sub(astronomicalObject.orbit_center.position).mag()*2;
+        // var center = p5.Vector.add(astronomicalObject.prev_acc.copy().normalize().mult(R),astronomicalObject.position);
+        var center = astronomicalObject.orbit_center.position;
+      }else{
+        var R = astronomicalObject.position.copy().mag()*2;
+        // var center = p5.Vector.add(astronomicalObject.prev_acc.copy().normalize().mult(R),astronomicalObject.position);
+        var center = {x:0,y:0};
+      }
+      stroke(color(150,150,220));
+      noFill();
+      ellipse(center.x/options.scale,center.y/options.scale, R/options.scale,R/options.scale);
+    }
     text('  '+astronomicalObject.name,rx+5,ry);
   }
 }

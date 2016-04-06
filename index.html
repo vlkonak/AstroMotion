@@ -1,8 +1,6 @@
 <html>
 <head>
-  <script src="https://code.jquery.com/jquery-2.2.2.min.js"
-          integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI="
-          crossorigin="anonymous">
+  <script src="scripts/lib/jquery.min.js">
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.22/p5.js"></script>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.23/addons/p5.dom.js"></script> -->
@@ -10,13 +8,15 @@
   <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-  <div id="control-panel" class="right-panel">
+  <div id="add-panel" class="right-panel">
     <div class="control-wrapper">
         <button id="add-object-btn"
           onclick="initAddingNewObject()">
           Add Object
         </button>
     </div>
+  </div>
+  <div id="control-panel" class="right-panel collapsed">
     <div class="control-wrapper">
         <button id="pause"
           onclick="pauseRender()">
@@ -48,6 +48,12 @@
       </label>
     </div>
     <div class="control-wrapper">
+      <label>
+        <input type="checkbox" name="showOrbits" onchange="toggleOrbits()">
+        Show Orbits
+      </label>
+    </div>
+    <div class="control-wrapper">
           <button type="button" onclick="initDemo()">Show Demo</button>
     </div>
     <div class="control-wrapper">
@@ -60,7 +66,7 @@
     </div>
   </div>
 
-  <div id="details-wrapper" class="right-panel">
+  <div id="details-wrapper" class="right-panel collapsed">
     <ul id="details-table">
     </ul>
   </div>

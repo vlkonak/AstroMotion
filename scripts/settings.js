@@ -3,11 +3,13 @@ const G    = .06 ;
 
 const default_settings = {
     scale:500000,
+    paused: false,
     show_object_properties:false,
     show_direction_for_acceleration:false,
     show_direction_for_velocity:false,
     show_layout: false,
     show_trace: false,
+    show_orbits:false,
     bind_offset_id: null,
     offset:{
       x:0,
@@ -20,4 +22,4 @@ const default_settings = {
   }
 };
 
-var settings = default_settings;
+settings = default_settings;

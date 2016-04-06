@@ -6,8 +6,8 @@ requirejs([
   "event_handlers",
   "UI",
   "app_renderer",
+  "demos/demo2",
   "app",
-  "demos/demo2"
 ],
   function(e){
     console.log('modules loaded');

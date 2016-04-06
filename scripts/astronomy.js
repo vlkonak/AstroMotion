@@ -11,10 +11,14 @@ function AstronomicObject(params){
           this.setMass(params.mass);
 
           this.active = false;
-          this.name = params.name || '';
+          this.name = params.name || 'new' + params.id;
           this.id = params.id;
           this.velocity = params.hasOwnProperty('velocity')?params.velocity:new p5.Vector(0,0);
           this.acceleration = new p5.Vector(0,0);
+          // rings
+          // colour
+          // spin
+          this.orbit_center = params.orbit_center || null;
 
           this.prev_acc = this.acceleration.copy();
 
@@ -74,7 +78,7 @@ function AstronomicObject(params){
   function Trace(obj){
     this.coords = [];
     this.update = function(options){
-      if (options.show_trace){
+      if (options && options.show_trace){
           if(this.coords.length >= 180){
             this.coords.splice(0,1);
           }

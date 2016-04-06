@@ -10,8 +10,12 @@ div.right-panel{
   border-radius: 15px;
 }
 
-div#control-panel{
+div#add-panel{
   top: 15px;
+}
+
+div#control-panel{
+  top: 60px;
 }
 
 div#details-wrapper{
@@ -29,4 +33,9 @@ li.selected{
 
 input#scale{
   width: 60%;
+}
+
+.collapsed{
+  height:50px;
+  overflow: hidden;
 }

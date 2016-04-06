@@ -12,10 +12,12 @@ function initAddingNewObject(){
 // USE SOME IS_TIME_STOPPED GLOBAL VAR
 function pauseRender(){
   noLoop();
+  settings.paused = true;
 }
 
 function resumeRender(){
   loop();
+  settings.paused = false;
 }
 
 
@@ -31,6 +33,11 @@ function toggleTraces(){
   settings.show_trace = !settings.show_trace;
 }
 
+function toggleOrbits(){
+  settings.show_orbits = !settings.show_orbits;
+}
+
+
 function toggleDetails(){
   settings.show_object_properties = !settings.show_object_properties;
   settings.show_direction_for_acceleration = !settings.show_direction_for_acceleration;
@@ -41,21 +48,24 @@ function updateDetailsTable(objects_array){
   $('#details-table').html('');
   for (var i in objects_array){
     var obj = objects_array[i];
-    $('#details-table').append(
-      '<li id="'+obj.id+'" \
-          onclick="\
-            selectObject('+obj.id+');\
-            updateDetailsTable(grid.grid);\
-            $(\'#'+obj.id+'\').addClass(\'selected\');\
-            ">'
-       + obj.name
-       +'</li>'
-    );
+    if (obj){
+      $('#details-table').append(
+        '<li id="'+obj.id+'" onclick="selectObject('+obj.id+');">'
+         + obj.name
+         +'</li>'
+      );
+    }
   }
 };
 
 function selectObject(id){
-  settings.bind_offset_id = parseInt(id);
+  updateDetailsTable(grid.grid);
+  if (settings.bind_offset_id == parseInt(id)){
+    settings.bind_offset_id = null;
+  }else{
+    settings.bind_offset_id = parseInt(id);
+    $('#'+id).addClass('selected');
+  }
 }
 
 function initDemo(){
@@ -65,3 +75,11 @@ function initDemo(){
     });
   // grid = new Grid(demo);
 }
+
+$('.collapsed').mouseover(function(){
+  $(this).removeClass('collapsed');
+})
+
+$('.collapsed').mouseout(function(){
+  $(this).addClass('collapsed');
+})

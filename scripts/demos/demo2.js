@@ -1,4 +1,12 @@
 var demo = {
+  app_settings:{
+    scale: 4e4,
+    offset: {
+      x:100,
+      y:200
+    },
+    show_orbits:false,
+  },
   objects:[
     {
       id:10,
@@ -13,6 +21,8 @@ var demo = {
       mass:3.33022e13,//e23
       position: new p5.Vector(58e6,0),//58e6
       velocity: new p5.Vector(0,-47e4),
+
+      orbit_center_id:10,
     },
     {
       id:12,
@@ -20,6 +30,8 @@ var demo = {
       mass:4.8675e14,//e24
       position: new p5.Vector(108e6,0),//108e6
       velocity: new p5.Vector(0,-35e4),
+
+      orbit_center_id:10,
     },
     {
       id:13,
@@ -27,15 +39,17 @@ var demo = {
       mass:5.9726e14,//e24
       position: new p5.Vector(150e6,0),//150e6
       velocity: new p5.Vector(0,-29e4),
+
+      orbit_center_id:10,
     },
     {
       id:1301,
       name:'Moon',
       mass:7.3477e12,//e22
-      // position: new p5.Vector(150e4+363e1,0),
       position: new p5.Vector(150e6,380e3),
-      // velocity: new p5.Vector(0,-29e3+0.8e3),
       velocity: new p5.Vector(-1e4,-29e4),
+
+      orbit_center_id:13,
     },
     {
       id:14,
@@ -58,6 +72,30 @@ var demo = {
       position: new p5.Vector(1433.5e6,0),//
       velocity: new p5.Vector(0,-9.69e4),
     },
+    // {
+    //   id:1601,
+    //   name:'Mimas',
+    //   mass:3.7e9,//e19
+    //   position: new p5.Vector(1433.5e6,185.539e3),//
+    //   velocity: new p5.Vector(?,-9.69e4),
+    //
+    //   orbit_center_id:16,
+    // },
+    // {
+    //   id:1602,
+    //   name:'Enceladus',
+    //   mass:1.1e10,//e20
+    //   position: new p5.Vector(1433.5e6,238.042e3),//
+    //   velocity: new p5.Vector(?,-9.69e4),
+    // },
+    // {
+    //   id:1603,
+    //   name:'Tethys',
+    //   mass:6.2e10,//e20
+    //   position: new p5.Vector(1433.5e6,294.672e3),//
+    //   velocity: new p5.Vector(?,-9.69e4),
+    // },
+
     {
       id:17,
       name:'Uranus',
@@ -80,6 +118,8 @@ var demo = {
       mass:8.9e12,//e22
       position: new p5.Vector(740.5e6,421e3),//
       velocity: new p5.Vector(17.33e4,-13.07e4),
+
+      orbit_center_id:15,
     },
     {
       id:1502,
@@ -87,6 +127,8 @@ var demo = {
       mass:4.8e12,//e22
       position: new p5.Vector(740.5e6,671e3),//
       velocity: new p5.Vector(13.74e4,-13.07e4),
+
+      orbit_center_id:15,
     },
     {
       id:1503,
@@ -94,6 +136,8 @@ var demo = {
       mass:1.5e13,//e23
       position: new p5.Vector(740.5e6,1.07e6),//
       velocity: new p5.Vector(10.8e4,-13.07e4),
+
+      orbit_center_id:15,
     },
     {
       id:1504,
@@ -101,6 +145,8 @@ var demo = {
       mass:1.1e13,//e23
       position: new p5.Vector(740.5e6,1.882e6),//
       velocity: new p5.Vector(8.2e4,-13.07e4),
+
+      orbit_center_id:15,
     },
   ]
 }
